@@ -1,4 +1,3 @@
-#Jafar Ghulami Codes "Best Idea"
 #!/usr/bin/env python
 import random
 #import sys
@@ -61,30 +60,32 @@ def subnet_calc():
             wildcard_octed.append(str(val))
 
         wildcard_mask = ".".join(wildcard_octed)
-        print(wildcard_mask)
+        print("wildcard mask: ", wildcard_mask)
 
 
         #converting IP to binary
         ip_binary_add = []
-        ip_address = subnet_mask.split(".")
+        ip_octeds = ip_address.split(".")
 
-        for octed_index in range(0, len(ip_address)):
+        for octed_index in range(0, len(ip_octeds)):
 
-            binary_octed = bin(int(ip_address[octed_index])).split("b")[1]
+            binary_octed = bin(int(ip_octeds[octed_index])).split("b")[1]
 
             if len(binary_octed) == 8:
                 ip_binary_add.append(binary_octed)
             elif len(binary_octed) < 8:
                 ip_binary_add.append(binary_octed.zfill(8))
         ip_binary_add = "".join(ip_binary_add)
-        print(ip_binary_add)
+        #print("Binary of ip number: ",ip_binary_add)
+        #find network add from 11111000000010000010001001000000 ------> keep the 1 or 0 then other maybe 1 or 0
 
         network_add_binary = ip_binary_add[:no_of_one]+"0"*no_of_zero
         broadcast_add_binary = ip_binary_add[:no_of_one]+"1"*no_of_zero
-        print("broadcast address:%s\nnetwork address: %s"%(broadcast_add_binary,network_add_binary))
+        #print("broadcast address:%s\nnetwork address: %s"%(broadcast_add_binary,network_add_binary))
 
         my_broadcast_add = []
         my_network_add = []
+        # for example to seperate the 11111000000010000010001001000000 to -----> [11111000, 0000100 ,00010001 ,001000000] ---> [248,4,17,32]
 
         for index in range(0,len(broadcast_add_binary),8):
 
@@ -96,14 +97,48 @@ def subnet_calc():
             octs = int(network_add_binary[index:index + 8],2) # the second arg of int show the base of string base 2
             my_network_add.append(octs)
 
-        print("Network ID: %s \n Broadcast ID: \n %s"%(my_network_add,my_broadcast_add))
+        print("Network ID: %s\nBroadcast ID: %s"%(my_network_add,my_broadcast_add))
 
 
+        #give as a randome ip address
+        i = 1
+        while True:
+            generate = input("Generate a randome IP from subnet? (y/n)")
 
 
+            # obtain ip between net add and broadcast add
+            if generate =="y":
+
+                generate_ip = []
+                for indexb, oct_bst in enumerate(my_broadcast_add):
+                    for indexn , oct_net in enumerate(my_network_add):
+                        if indexb == indexn:
+                            if oct_bst == oct_net:
+                            ## add I dentical octets to the gerated ip list
+                                generate_ip.append(oct_bst)
+                            else:
+                                generate_ip.append(str(random.randint(int(oct_net),int(oct_bst))))
+                                # ip generated
+                ip_values = []
+                for iii in generate_ip:
+                    ip_values.append(str(iii))
+
+                ip_generated = ".".join(ip_values)
+
+                print("#%d ip address is :%s "%(i,ip_generated))
+                i += 1
+
+               # print("\n")
+                continue
+
+
+            else:
+                print("okay bye!")
+                break
 
 
     except KeyboardInterrupt:
         print("There is some problem about your keyboard strock!")
+
 
 subnet_calc()
