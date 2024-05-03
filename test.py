@@ -1,6 +1,4 @@
-import os
-myfile = open("README.md","rt")
+from numpy import random
 
-print(myfile.read())
-myfile.close()
-
+x = random.randint(100)
+print(x)
