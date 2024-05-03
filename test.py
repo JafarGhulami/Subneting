@@ -1,6 +1,5 @@
 from numpy import random
 
+x = random.choice([1,2,3,4,5], size = (3,4,2))
 
-my_arr = random.randint(100, size =(3,2,4))
-
-print(my_arr)
+print(x)
