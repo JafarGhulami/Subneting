@@ -1,5 +1,11 @@
 from numpy import random
+import numpy as np
 
-x = random.choice([3, 5, 7, 9], p=[0.1, 0.3, 0.6, 0.0], size=(3, 5))
+arr = np.array([5,6,7,8])
 
+#random.shuffle(arr)
+print(arr)
+
+x = random.permutation(arr)
+print(arr)
 print(x)
